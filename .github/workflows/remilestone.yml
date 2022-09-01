@@ -46,8 +46,8 @@ jobs:
         if: steps.changed-text-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-text-files.outputs.all_changed_files }}; do
-            #python .github/remilestone.py $file
-            echo $file
+            python .github/remilestone.py $file
+            #echo $file
           done
          
       - name: commit files

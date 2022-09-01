@@ -10,9 +10,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-  
 
-      - name: Get changed text files
+      - name: identify changed text files
         id: changed-text-files
         uses: tj-actions/changed-files@v29.0.1
         with:
@@ -25,7 +24,7 @@ jobs:
             **/*.inProgress
             **/*.py
 
-      - name: no files changed?
+      - name: no text files changed?
         if: steps.changed-text-files.outputs.any_changed == 'false'
         run: |
           echo "no text files changed"
@@ -35,14 +34,14 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
-          
+
       - name: install openiti library
         if: steps.changed-text-files.outputs.any_changed == 'true'
         run: |
           python -m pip install --upgrade pip
           pip install openiti
 
-      - name: Remilestone changed texts
+      - name: remilestone changed texts
         if: steps.changed-text-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-text-files.outputs.all_changed_files }}; do
@@ -50,7 +49,7 @@ jobs:
             #echo $file
           done
          
-      - name: commit files
+      - name: commit any remilestoned text files
         if: steps.changed-text-files.outputs.any_changed == 'true'
         run: |
            git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -58,7 +57,7 @@ jobs:
            git add -A
            git commit -m "remilestone changed files" -a
                 
-      - name: push changes
+      - name: push any changes
         if: steps.changed-text-files.outputs.any_changed == 'true'
         uses: ad-m/github-push-action@v0.6.0
         with:

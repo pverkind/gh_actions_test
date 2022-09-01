@@ -23,6 +23,7 @@ jobs:
             *.jpeg
             *.md
             *.inProgress
+            *.py
 
       - name: no files changed?
          if: steps.changed-text-files.outputs.any_changed == 'false'
@@ -45,13 +46,9 @@ jobs:
         if: steps.changed-text-files.outputs.any_changed == 'true'
         run: |
           for file in ${{ steps.changed-text-files.outputs.all_changed_files }}; do
-            python remilestone.py $file
+            #python .github/remilestone.py $file
+            echo $file
           done
-
-       - name: execute py script
-         env:
-           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-         run: python remilestone.py
          
        - name: commit files
          run: |
@@ -62,4 +59,4 @@ jobs:
          uses: ad-m/github-push-action@v0.6.0
          with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
-           branch: master
+           branch: main

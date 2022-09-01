@@ -10,6 +10,7 @@ from collections import Counter
 
 
 def milestones(file, length, last_ms_cnt, log_file):
+    print("adding milestones to", file)
     # ara_regex = re.compile("^[ذ١٢٣٤٥٦٧٨٩٠ّـضصثقفغعهخحجدًٌَُلإإشسيبلاتنمكطٍِلأأـئءؤرلاىةوزظْلآآ]+$")
     # new char list without ZERO WIDTH NON-JOINER and ZERO WIDTH JOINER
     # ara_regex = re.compile("[ءآأؤإئابةتثجحخدذرزسشصضطظعغـفقكلمنهوىيًٌٍَُِّْ٠١٢٣٤٥٦٧٨٩ٮٰٹپچژکگیے۱۲۳۴۵]+")

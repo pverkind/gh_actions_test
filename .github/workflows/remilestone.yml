@@ -1,0 +1,65 @@
+name: remilestone
+
+on: [push]
+
+jobs:
+  remilestone-text-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+  
+
+      - name: Get changed text files
+        id: changed-text-files
+        uses: tj-actions/changed-files@v29.0.1
+        with:
+          files_ignore: |
+            *.yml
+            *.png
+            *.jpg
+            *.jpeg
+            *.md
+            *.inProgress
+
+      - name: no files changed?
+         if: steps.changed-text-files.outputs.any_changed == 'false'
+         run: |
+           echo "no text files changed"
+
+      - name: install python
+        if: steps.changed-text-files.outputs.any_changed == 'true'
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+          
+      - name: install openiti library
+        if: steps.changed-text-files.outputs.any_changed == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install openiti
+
+      - name: Remilestone changed texts
+        if: steps.changed-text-files.outputs.any_changed == 'true'
+        run: |
+          for file in ${{ steps.changed-text-files.outputs.all_changed_files }}; do
+            python remilestone.py $file
+          done
+
+       - name: execute py script
+         env:
+           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+         run: python remilestone.py
+         
+       - name: commit files
+         run: |
+           git add -A
+           git commit -m "remilestone changed files" -a
+                
+       - name: push changes
+         uses: ad-m/github-push-action@v0.6.0
+         with:
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           branch: master

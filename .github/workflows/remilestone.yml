@@ -17,13 +17,13 @@ jobs:
         uses: tj-actions/changed-files@v29.0.1
         with:
           files_ignore: |
-            *.yml
-            *.png
-            *.jpg
-            *.jpeg
-            *.md
-            *.inProgress
-            *.py
+            **/*.yml
+            **/*.png
+            **/*.jpg
+            **/*.jpeg
+            **/*.md
+            **/*.inProgress
+            **/*.py
 
       - name: no files changed?
         if: steps.changed-text-files.outputs.any_changed == 'false'

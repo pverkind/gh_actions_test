@@ -109,6 +109,6 @@ def milestones(file, length, last_ms_cnt, log_file):
 
 
 if __name__ == "__main__":
-    with open("milestone_log.txt", "a") as log_f:
+    with open(".github/milestone_log.txt", "a") as log_f:
         milestones(sys.argv[1].strip(), 300, 0, log_f)
         

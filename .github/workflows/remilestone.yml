@@ -26,9 +26,9 @@ jobs:
             *.py
 
       - name: no files changed?
-         if: steps.changed-text-files.outputs.any_changed == 'false'
-         run: |
-           echo "no text files changed"
+        if: steps.changed-text-files.outputs.any_changed == 'false'
+        run: |
+          echo "no text files changed"
 
       - name: install python
         if: steps.changed-text-files.outputs.any_changed == 'true'
@@ -50,13 +50,13 @@ jobs:
             echo $file
           done
          
-       - name: commit files
-         run: |
+      - name: commit files
+        run: |
            git add -A
            git commit -m "remilestone changed files" -a
                 
-       - name: push changes
-         uses: ad-m/github-push-action@v0.6.0
-         with:
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
            branch: main
